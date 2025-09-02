@@ -1,25 +1,30 @@
 ---
 - name: Update and Upgrade All Lab Servers
   hosts: lab_servers
-  become: yes  # means "use sudo"
+  become: yes
+  # Set environment variables to avoid interactive prompts
+  environment:
+    DEBIAN_FRONTEND: "noninteractive"
+    NEEDRESTART_MODE: "a"
 
   tasks:
     - name: Update apt package cache
       apt:
         update_cache: yes
-        cache_valid_time: 3600  # only update if cache is older than 1 hour
+        cache_valid_time: 3600
 
-    - name: Upgrade all packages
+    - name: Upgrade all packages (safe and non-interactive)
       apt:
         upgrade: dist
         autoremove: yes
         autoclean: yes
+        # These two parameters are CRITICAL for avoiding hangs
+        force_apt_get: yes # Forces using apt-get instead of aptitude
+        allow_unauthenticated: no # Keep this for security, but it ensures no strange prompts
+      # Ignore errors for this task if you want the playbook to continue even if one host fails.
+      # ignore_errors: yes
 
     # - name: Reboot if required (optional - uncomment to use)
     #   reboot:
-    #     msg: "Reboot initiated by Ansible for kernel update"
-    #     connect_timeout: 5
-    #     reboot_timeout: 300
-    #     pre_reboot_delay: 0
-    #     post_reboot_delay: 30
-    #   ignore_errors: yes  # In case the host doesn't need a reboot
+    #   ignore_errors: yes
+#Change Made:Second

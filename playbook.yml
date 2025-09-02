@@ -23,3 +23,4 @@
     #     pre_reboot_delay: 0
     #     post_reboot_delay: 30
     #   ignore_errors: yes  # In case the host doesn't need a reboot
+    #   Update-Trigger-First

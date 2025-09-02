@@ -1,0 +1,25 @@
+---
+- name: Update and Upgrade All Lab Servers
+  hosts: lab_servers
+  become: yes  # means "use sudo"
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600  # only update if cache is older than 1 hour
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+
+    # - name: Reboot if required (optional - uncomment to use)
+    #   reboot:
+    #     msg: "Reboot initiated by Ansible for kernel update"
+    #     connect_timeout: 5
+    #     reboot_timeout: 300
+    #     pre_reboot_delay: 0
+    #     post_reboot_delay: 30
+    #   ignore_errors: yes  # In case the host doesn't need a reboot

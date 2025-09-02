@@ -1,0 +1,21 @@
+[debian]
+jellyseeer ansible_host=10.10.10.12
+adguard ansible_host=10.10.10.9
+bookstack ansible_host=10.10.10.17
+n8n ansible_host=10.10.10.14
+
+[ubuntu]
+immich ansible_host=10.10.10.7
+portainer ansible_host=10.10.10.20
+dumb ansible_host=10.10.10.18
+jellyfin ansible_host=10.10.10.19
+devops ansible_host=10.10.10.13
+dockers-igpu ansible_host=10.10.10.11
+
+[lab_servers:children]
+debian
+ubuntu
+
+[lab_servers:vars]
+ansible_user=ansible
+ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/id_ed25519
